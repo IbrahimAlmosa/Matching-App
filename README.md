@@ -1,4 +1,4 @@
-# VOLUNTR (Matching-App)
+# VolunteerMatching (VOLUNTR)
 
 VOLUNTR matches volunteers with Pitt County nonprofits for **Pitt County Cares (PCC)**. This is the MIS 4173 Team 5 **Sprint 4 training build**, based on Prototype D "Together". It supports three roles: volunteer, organization member, and PCC admin.
 
@@ -6,12 +6,12 @@ VOLUNTR matches volunteers with Pitt County nonprofits for **Pitt County Cares (
 
 ## Try it online
 
-Live site (GitHub Pages): **https://ibrahimalmosa.github.io/Matching-App/**
+Live site (GitHub Pages): **https://ibrahimalmosa.github.io/VolunteerMatching/**
 
-- Training build: https://ibrahimalmosa.github.io/Matching-App/voluntr.html
-- Prototype D: https://ibrahimalmosa.github.io/Matching-App/prototypes/voluntr-together.html
+- Training build: https://ibrahimalmosa.github.io/VolunteerMatching/voluntr.html
+- Prototype D: https://ibrahimalmosa.github.io/VolunteerMatching/prototypes/voluntr-together.html
 
-The site updates on its own a minute or two after anything is merged to `main`. Each tester's data stays in their own browser, so testers don't see each other's changes. Use **Training tools → Reset** to start over.
+This needs the repo to be named `VolunteerMatching` (GitHub Settings → General → Repository name), because the Pages address comes from the repo name. The site updates on its own a minute or two after anything is merged to `main`. Each tester's data stays in their own browser, so testers don't see each other's changes. Use **Training tools → Reset** to start over.
 
 ## Run it
 
