@@ -30,6 +30,7 @@ All demo accounts use the password `Training2026!`. Open **Training tools** on t
 | `tests/unit.js` | 32 unit test cases (rules, matching, security) |
 | `tests/e2e.js` | 15 browser test cases (full workflows, phone layout, accessibility basics) |
 | `tests/results/` | Latest results (JSON) and screenshots |
+| `prototypes/voluntr-together.html` | Sprint 3 Prototype D "Together", the design this build is based on (see `prototypes/README.md`) |
 
 ## Build and test
 

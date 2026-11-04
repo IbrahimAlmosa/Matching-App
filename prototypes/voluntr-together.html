@@ -1,0 +1,750 @@
+<title>VOLUNTR Together</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Public+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+/* Prototype D combines A (card flow, tab bar, match ring, navy and marigold) with C (large readable type, text-size control, task-based home screens, plain-language reasons, PCC phone line).
+   Layout: one app, two shells. Phone: one column, bottom tab bar, one opportunity card at a time. Desktop: header, left nav rail, wide two-column cards. The shell follows screen width; the Phone/Desktop switch previews either. */
+:root {
+  --bg: #e9edf1; --surface: #ffffff; --surface-2: #f3f6f9; --ink: #14212e; --muted: #556575; --line: #d6dee6;
+  --navy: #13395b; --navy-ink: #ffffff; --head: #13395b; --head-ink: #ffffff; --accent: #f0b429; --accent-ink: #2a1d00;
+  --ok: #23704f; --ok-bg: #e2f2ea; --warn: #8a5a00; --warn-bg: #fdf1d6; --bad: #a33232; --bad-bg: #fbe6e6;
+  --font: "Atkinson Hyperlegible", "Public Sans", Verdana, "Segoe UI", sans-serif; --display: "Public Sans", "Segoe UI", Roboto, sans-serif; --scale: 1;
+  --r: 14px; --shadow: 0 1px 2px rgba(19,57,91,.08), 0 8px 24px rgba(19,57,91,.10);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0c141b; --surface: #15202b; --surface-2: #1b2836; --ink: #e5ecf2; --muted: #9aabbb; --line: #2a3a4a;
+  --navy: #9cc3e6; --navy-ink: #0c1a27; --head: #102b42; --head-ink: #e5ecf2; --accent: #f3c04d; --accent-ink: #2a1d00;
+  --ok: #6fd3a5; --ok-bg: #173329; --warn: #f3c04d; --warn-bg: #352a12; --bad: #f19a9a; --bad-bg: #3a1c1c;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35); color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #0c141b; --surface: #15202b; --surface-2: #1b2836; --ink: #e5ecf2; --muted: #9aabbb; --line: #2a3a4a;
+  --navy: #9cc3e6; --navy-ink: #0c1a27; --head: #102b42; --head-ink: #e5ecf2; --accent: #f3c04d; --accent-ink: #2a1d00;
+  --ok: #6fd3a5; --ok-bg: #173329; --warn: #f3c04d; --warn-bg: #352a12; --bad: #f19a9a; --bad-bg: #3a1c1c;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35); color-scheme: dark; }
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 17px/1.55 var(--font); }
+h2, h3, .brand, .kpi b, .ring span { font-family: var(--display); }
+.screen { zoom: var(--scale); }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 4px solid var(--accent); outline-offset: 2px; box-shadow: 0 0 0 6px var(--ink); }
+.page { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 32px; display: grid; gap: 16px; justify-items: center; }
+.proto-bar { width: 100%; max-width: 1180px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.proto-bar h1 { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: .02em; }
+.proto-bar h1 span { color: var(--muted); font-weight: 500; }
+.seg { display: inline-flex; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 3px; gap: 2px; }
+.seg button { border: 0; background: transparent; padding: 6px 12px; border-radius: 999px; font-size: 14px; font-weight: 600; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--navy); color: var(--navy-ink); }
+.app { width: 100%; max-width: 400px; height: min(780px, calc(100dvh - 120px)); min-height: 560px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 28px; box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; position: relative; }
+@media (max-width: 440px) { .app { border-radius: 18px; height: calc(100dvh - 110px); } }
+.top { background: var(--head); color: var(--head-ink); padding: 14px 18px 12px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.brand { font-weight: 800; letter-spacing: .14em; font-size: 15px; }
+.brand small { display: block; font-weight: 500; letter-spacing: .02em; font-size: 11px; opacity: .8; }
+.top .who { font-size: 13px; opacity: .9; text-align: right; }
+.screen { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 14px; }
+.tabs { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; background: var(--surface); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.tabs button { border: 0; background: transparent; padding: 8px 2px 10px; display: grid; justify-items: center; gap: 2px; font-size: 11.5px; font-weight: 600; color: var(--muted); position: relative; }
+.tabs button svg { width: 22px; height: 22px; }
+.tabs button[aria-current="page"] { color: var(--navy); }
+.tabs button[aria-current="page"]::before { content: ""; position: absolute; top: 0; left: 25%; right: 25%; height: 3px; border-radius: 0 0 3px 3px; background: var(--accent); }
+.badge { position: absolute; top: 4px; left: calc(50% + 6px); background: var(--accent); color: var(--accent-ink); font-size: 10px; font-weight: 800; border-radius: 999px; padding: 0 5px; line-height: 16px; }
+h2 { margin: 0; font-size: 20px; line-height: 1.25; text-wrap: balance; }
+h3 { margin: 0; font-size: 16px; }
+.sub { color: var(--muted); font-size: 14px; margin: 0; }
+.eyebrow { font-size: 11.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.opp { box-shadow: var(--shadow); border: 0; }
+.org-row { display: flex; gap: 10px; align-items: center; }
+.avatar { width: 40px; height: 40px; border-radius: 10px; background: var(--navy); color: var(--navy-ink); display: grid; place-items: center; font-weight: 800; font-size: 13px; flex: none; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); }
+.chip.ok { background: var(--ok-bg); color: var(--ok); border-color: transparent; }
+.chip.warn { background: var(--warn-bg); color: var(--warn); border-color: transparent; }
+.chip.bad { background: var(--bad-bg); color: var(--bad); border-color: transparent; }
+.chip.navy { background: var(--navy); color: var(--navy-ink); border-color: transparent; }
+dl.facts { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; font-size: 14px; }
+dl.facts dt { color: var(--muted); }
+dl.facts dd { margin: 0; font-weight: 500; overflow-wrap: anywhere; min-width: 0; }
+.match { display: flex; gap: 12px; align-items: center; padding: 12px; background: var(--surface-2); border-radius: 10px; }
+.ring { --p: 80; width: 56px; height: 56px; border-radius: 50%; flex: none; display: grid; place-items: center; background: conic-gradient(var(--navy) calc(var(--p) * 1%), var(--line) 0); }
+.ring span { width: 44px; height: 44px; border-radius: 50%; background: var(--surface-2); display: grid; place-items: center; font-weight: 800; font-size: 15px; font-variant-numeric: tabular-nums; }
+.match ul { margin: 0; padding-left: 18px; font-size: 13.5px; }
+details summary { cursor: pointer; font-size: 13.5px; font-weight: 600; color: var(--navy); }
+.bars { display: grid; gap: 6px; margin-top: 8px; font-size: 12.5px; }
+.bar { display: grid; grid-template-columns: 1fr 90px 34px; gap: 8px; align-items: center; }
+.bar i { display: block; height: 6px; border-radius: 3px; background: var(--line); position: relative; overflow: hidden; }
+.bar i b { position: absolute; inset: 0 auto 0 0; background: var(--navy); border-radius: 3px; }
+.bar em { font-style: normal; font-variant-numeric: tabular-nums; text-align: right; color: var(--muted); }
+.actions { display: grid; grid-template-columns: 1fr auto 1.3fr; gap: 8px; }
+.btn { border: 1.5px solid var(--navy); background: transparent; color: var(--navy); border-radius: 12px; padding: 11px 14px; font-weight: 700; font-size: 15px; display: inline-flex; gap: 6px; align-items: center; justify-content: center; min-height: 48px; }
+.btn.solid { background: var(--navy); color: var(--navy-ink); }
+.btn.accent { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.quiet { border-color: var(--line); color: var(--ink); }
+.btn.small { padding: 6px 10px; min-height: 36px; font-size: 13.5px; border-radius: 10px; }
+.btn.danger { border-color: var(--bad); color: var(--bad); }
+.btn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn svg { width: 18px; height: 18px; }
+.note { font-size: 13px; color: var(--muted); display: flex; gap: 8px; align-items: flex-start; }
+.note svg { width: 16px; height: 16px; flex: none; margin-top: 2px; }
+.linkish { background: none; border: 0; padding: 0; color: var(--navy); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.banner { border-radius: 12px; padding: 12px 14px; font-size: 14px; display: flex; gap: 10px; align-items: flex-start; }
+.banner svg { width: 18px; height: 18px; flex: none; margin-top: 1px; }
+.banner.warn { background: var(--warn-bg); color: var(--warn); }
+.banner.ok { background: var(--ok-bg); color: var(--ok); }
+.banner.info { background: var(--surface); border: 1px dashed var(--line); color: var(--muted); }
+.list { display: grid; gap: 10px; }
+.row { display: flex; gap: 12px; align-items: center; justify-content: space-between; }
+.row > div { min-width: 0; }
+.progress { height: 8px; border-radius: 4px; background: var(--line); overflow: hidden; }
+.progress b { display: block; height: 100%; background: var(--ok); }
+.stack { display: grid; gap: 4px; }
+.field { display: grid; gap: 6px; }
+.field label, .field .lbl { font-size: 14px; font-weight: 600; }
+.field .hint { font-size: 12.5px; color: var(--muted); }
+input[type="text"], input[type="email"], input[type="date"], input[type="number"], input[type="time"], select, textarea { width: 100%; border: 1.5px solid var(--line); border-radius: 10px; padding: 10px 12px; background: var(--surface); min-height: 44px; }
+textarea { min-height: 80px; resize: vertical; }
+.pick { display: flex; flex-wrap: wrap; gap: 8px; }
+.pick button { border: 1.5px solid var(--line); background: var(--surface); border-radius: 999px; padding: 7px 13px; font-size: 14px; font-weight: 600; }
+.pick button[aria-pressed="true"] { border-color: var(--navy); background: var(--navy); color: var(--navy-ink); }
+.grid-week { display: grid; grid-template-columns: 52px repeat(3, 1fr); gap: 4px; font-size: 12.5px; }
+.grid-week span { color: var(--muted); align-self: center; font-weight: 600; }
+.grid-week button { border: 1.5px solid var(--line); background: var(--surface); border-radius: 8px; padding: 6px 0; font-size: 12px; font-weight: 600; }
+.grid-week button[aria-pressed="true"] { background: var(--navy); color: var(--navy-ink); border-color: var(--navy); }
+.steps { display: flex; gap: 4px; }
+.steps i { flex: 1; height: 5px; border-radius: 3px; background: var(--line); }
+.steps i.on { background: var(--navy); }
+.toast { position: absolute; left: 16px; right: 16px; bottom: 76px; background: var(--ink); color: var(--surface); padding: 12px 14px; border-radius: 12px; font-size: 14px; font-weight: 600; box-shadow: var(--shadow); transition: opacity .2s, transform .2s; }
+.toast[hidden] { display: none; }
+.sheet-wrap { position: absolute; inset: 0; background: rgba(10,20,30,.45); display: flex; align-items: flex-end; }
+.sheet { background: var(--surface); width: 100%; border-radius: 20px 20px 0 0; padding: 18px 16px 22px; display: grid; gap: 12px; max-height: 80%; overflow-y: auto; }
+.msg { max-width: 82%; padding: 8px 12px; border-radius: 14px; font-size: 14px; background: var(--surface-2); }
+.msg.me { margin-left: auto; background: var(--navy); color: var(--navy-ink); }
+.msg small { display: block; opacity: .7; font-size: 11px; }
+.kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.kpi { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.kpi b { display: block; font-size: 24px; font-variant-numeric: tabular-nums; }
+.kpi span { font-size: 12.5px; color: var(--muted); }
+.hbar { display: grid; grid-template-columns: 1fr; gap: 4px; font-size: 13px; }
+.hbar .track { height: 10px; background: var(--line); border-radius: 5px; position: relative; overflow: hidden; }
+.hbar .track b { position: absolute; inset: 0 auto 0 0; background: var(--navy); opacity: .35; }
+.hbar .track b + b { opacity: 1; }
+.slider { display: grid; grid-template-columns: 1fr 44px; gap: 4px 10px; align-items: center; font-size: 14px; }
+.slider input { grid-column: 1 / -1; accent-color: var(--navy); }
+.slider output { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+.legal { font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 10px; }
+
+/* ---------- Desktop shell ---------- */
+.app[data-device="desktop"] { max-width: 1180px; height: min(860px, calc(100dvh - 110px)); border-radius: 16px; display: grid; grid-template-columns: 220px minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+.app[data-device="desktop"] .top { grid-column: 1 / -1; padding: 14px 24px; }
+.app[data-device="desktop"][data-join="1"] { grid-template-columns: minmax(0, 1fr); }
+.app[data-device="desktop"] .tabs { grid-row: 2; display: flex; flex-direction: column; gap: 2px; border-top: 0; border-right: 1px solid var(--line); padding: 16px 10px; }
+.app[data-device="desktop"] .tabs button { grid-template-columns: 22px 1fr auto; display: grid; justify-items: start; align-items: center; gap: 10px; padding: 10px 12px; font-size: 14.5px; border-radius: 10px; text-align: left; }
+.app[data-device="desktop"] .tabs button[aria-current="page"] { background: var(--surface-2); }
+.app[data-device="desktop"] .tabs button[aria-current="page"]::before { top: 8px; bottom: 8px; left: 0; right: auto; width: 3px; height: auto; border-radius: 0 3px 3px 0; }
+.app[data-device="desktop"] .badge { position: static; }
+.app[data-device="desktop"] .tabs .rail-note { margin-top: auto; font-size: 12px; color: var(--muted); padding: 10px 12px; display: block; }
+.app[data-device="desktop"] .screen { padding: 28px 32px; gap: 18px; }
+.app[data-device="desktop"] .opp { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 16px 28px; align-items: start; max-width: 1000px; padding: 24px; }
+.app[data-device="desktop"] .opp > .opp-main, .app[data-device="desktop"] .opp > .opp-side { display: flex; flex-direction: column; gap: 14px; }
+.app[data-device="desktop"] .opp .actions { grid-column: 1 / -1; grid-template-columns: 1fr auto 1.6fr; max-width: 640px; justify-self: end; width: 100%; }
+.app[data-device="desktop"] h2 { font-size: 22px; }
+.app[data-device="desktop"] .cards { grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); align-items: start; }
+.app[data-device="desktop"] .kpis { grid-template-columns: repeat(5, 1fr); }
+.app[data-device="desktop"] .kpis .kpi { grid-column: auto !important; }
+.app[data-device="desktop"] .narrow { max-width: 680px; }
+.app[data-device="desktop"] .toast { left: auto; right: 24px; bottom: 24px; max-width: 420px; }
+.app[data-device="desktop"] .sheet-wrap { align-items: center; justify-content: center; }
+.app[data-device="desktop"] .sheet { width: min(520px, 90%); border-radius: 16px; }
+.app[data-device="desktop"] .two-col { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 28px; align-items: start; }
+.app[data-device="desktop"] .side-only { display: flex; }
+.side-only { display: none; }
+/* ---------- From C: task home, text size, help line ---------- */
+.tasks { display: grid; gap: 10px; }
+.app[data-device="desktop"] .tasks { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.task { display: grid; grid-template-columns: 1fr auto; gap: 2px 14px; align-items: center; text-align: left; background: var(--surface); border: 2px solid var(--line); border-radius: var(--r); padding: 16px 18px; }
+.task:hover { border-color: var(--navy); }
+.task b { font-size: 17px; font-family: var(--display); }
+.task span { color: var(--muted); font-size: 14.5px; grid-column: 1; }
+.task .arrow { grid-row: 1 / span 2; grid-column: 2; font-style: normal; font-size: 22px; color: var(--navy); }
+.task .cnt { display: inline-block; background: var(--accent); color: var(--accent-ink); border-radius: 999px; padding: 0 9px; font-size: 13px; margin-left: 8px; vertical-align: 2px; }
+.greet { display: grid; gap: 4px; }
+.greet h2 { font-size: 26px; }
+.app[data-device="desktop"] .greet h2 { font-size: 30px; }
+.lead { color: var(--muted); font-size: 17px; margin: 0; }
+.fitlabel { font-weight: 700; color: var(--ok); font-size: 15px; }
+.textsize { display: inline-flex; gap: 2px; align-items: center; font-size: 12px; }
+.textsize button { background: transparent; border: 1px solid transparent; color: inherit; border-radius: 6px; padding: 0 6px; line-height: 26px; font-weight: 700; }
+.textsize button[aria-pressed="true"] { border-color: currentColor; }
+.top .right { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+.helpline { font-size: 12.5px; text-align: right; display: none; }
+.helpline b { display: block; font-size: 15px; }
+.app[data-device="desktop"] .helpline { display: block; }
+.callbar { display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; border: 2px dashed var(--line); border-radius: var(--r); padding: 12px 16px; font-size: 15px; }
+/* ---------- Sign-up landing ---------- */
+.hero { background: var(--head); color: var(--head-ink); border-radius: var(--r); padding: 22px 20px; display: grid; gap: 12px; }
+.hero h2 { font-size: 26px; line-height: 1.15; }
+.hero p { margin: 0; opacity: .9; }
+.hero .btn.accent { justify-self: start; }
+.app[data-device="desktop"] .hero { padding: 40px 40px; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 12px 40px; align-items: center; }
+.app[data-device="desktop"] .hero h2 { font-size: 36px; }
+.app[data-device="desktop"] .hero .hero-copy { display: grid; gap: 14px; }
+.outline { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; counter-reset: s; }
+.outline li { counter-increment: s; display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; font-size: 14px; }
+.outline li::before { content: counter(s); width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); display: grid; place-items: center; font-weight: 800; font-size: 13px; }
+.outline li b { display: block; font-size: 15px; }
+.hero .outline li span { opacity: .85; }
+.promises { display: grid; gap: 10px; }
+.app[data-device="desktop"] .promises { grid-template-columns: repeat(3, 1fr); }
+.promise { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; }
+.promise svg { width: 20px; height: 20px; flex: none; color: var(--ok); margin-top: 1px; }
+.sum { display: grid; gap: 10px; font-size: 13.5px; }
+.sum h4 { margin: 0; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; align-items: center; }
+.sum p { margin: 2px 0 0; }
+.sum .empty { color: var(--muted); font-style: italic; }
+.dev-seg { display: none; }
+@media (min-width: 720px) { .dev-seg { display: inline-flex; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+.enter { animation: rise .25s ease-out; }
+@keyframes rise { from { transform: translateY(8px); opacity: .6; } to { transform: none; opacity: 1; } }
+</style>
+
+<div class="page">
+  <div class="proto-bar">
+    <h1>Prototype D · Together <span>A + C, phone and desktop</span></h1>
+    <div class="seg dev-seg" role="group" aria-label="Preview size">
+      <button data-device="phone" aria-pressed="false">Phone</button>
+      <button data-device="desktop" aria-pressed="false">Desktop</button>
+    </div>
+    <div class="seg" role="group" aria-label="View as">
+      <button data-role="join" aria-pressed="true">Sign up</button>
+      <button data-role="vol" aria-pressed="false">Volunteer</button>
+      <button data-role="org" aria-pressed="false">Organization</button>
+      <button data-role="adm" aria-pressed="false">PCC admin</button>
+    </div>
+  </div>
+  <div class="app" id="app" data-device="phone">
+    <header class="top"><div class="brand">VOLUNTR<small>by Pitt County Cares</small></div><div class="right"><div class="helpline">Prefer to talk to someone?<b>Call PCC: (252) 555-0100</b></div><div class="textsize" role="group" aria-label="Text size"><button data-size="1" aria-pressed="true" aria-label="Standard text">A</button><button data-size="1.15" aria-pressed="false" aria-label="Larger text" style="font-size:15px">A</button><button data-size="1.3" aria-pressed="false" aria-label="Largest text" style="font-size:18px">A</button></div><div class="who" id="who"></div></div></header>
+    <main class="screen" id="screen" tabindex="-1"></main>
+    <nav class="tabs" id="tabs" aria-label="Main"></nav>
+    <div class="toast" id="toast" role="status" hidden></div>
+    <div id="sheet"></div>
+  </div>
+  <p class="sub" style="max-width:520px;text-align:center">Clickable prototype with sample data. Nothing is saved or sent.</p>
+</div>
+
+<script>
+/* VOLUNTR prototype sample data. Shared by all three prototypes so the client
+   compares layouts, not content. Field names follow the Sprint 2 logical ERD
+   (Organization, Opportunity, Volunteer, VolunteerAvailability, Interest,
+   Connection, Skill, CauseArea, MatchingRule, Administrator). All people,
+   emails and phone numbers are fictional examples. */
+window.VOLUNTR = (function () {
+  const causes = ["Hunger & food security", "Youth & education", "Health", "Housing", "Arts & culture", "Seniors", "Foster care", "Community spaces"];
+  const roleTypes = ["Board / committee service", "Event support", "Marketing or design help", "Professional / pro bono expertise", "Hands-on labor", "Mentoring", "Administrative support"];
+  const commitments = ["One-time", "Short-term project", "Ongoing / recurring"];
+  const skills = ["Accounting", "Nonprofit finance", "Grant writing", "Spanish", "Social media", "Graphic design", "Food safety certification", "Tutoring", "Event setup", "Customer service", "Carpentry", "OSHA-10", "Public speaking", "Data entry"];
+
+  // MatchingRule: CriterionName, Weight, IsActive (weights total 100)
+  const rules = [
+    { id: "skill", criterion: "Skill overlap", weight: 30, active: true },
+    { id: "role", criterion: "Role-type willingness", weight: 20, active: true },
+    { id: "cause", criterion: "Cause interest", weight: 15, active: true },
+    { id: "schedule", criterion: "Schedule availability", weight: 15, active: true },
+    { id: "commitment", criterion: "Commitment level", weight: 10, active: true },
+    { id: "distance", criterion: "Distance", weight: 10, active: true }
+  ];
+
+  // Organization: Name, Mission, Location, ContactName, ContactEmail, Website, LogoReference, ApprovalStatus
+  const orgs = [
+    { id: "o1", name: "Greenville Community Pantry", short: "GCP", mission: "Weekly groceries and hot meals for Pitt County families facing food insecurity.", causes: ["Hunger & food security"], location: "Greenville", contact: "Renee Batts", email: "renee@gcpantry.example.org", phone: "(252) 555-0141", website: "gcpantry.example.org", approval: "Approved", joined: "Sep 22, 2026" },
+    { id: "o2", name: "Riley's Army", short: "RA", mission: "Supporting children with cancer and their families in eastern North Carolina.", causes: ["Health", "Youth & education"], location: "Greenville", contact: "Leah Brooks", email: "leah@rileysarmy.example.org", phone: "(252) 555-0187", website: "rileysarmy.example.org", approval: "Approved", joined: "Sep 24, 2026" },
+    { id: "o3", name: "Dr. D Project", short: "DD", mission: "Mentoring and academic support that helps Pitt County students plan for college and careers.", causes: ["Youth & education"], location: "Winterville", contact: "Marcus Dawson", email: "marcus@drdproject.example.org", phone: "(252) 555-0112", website: "drdproject.example.org", approval: "Approved", joined: "Sep 25, 2026" },
+    { id: "o4", name: "Tar River Build Crew", short: "TRB", mission: "Volunteer home repairs so older homeowners can stay safely in their homes.", causes: ["Housing", "Seniors"], location: "Greenville", contact: "Alan Whitfield", email: "alan@tarriverbuild.example.org", phone: "(252) 555-0163", website: "tarriverbuild.example.org", approval: "Approved", joined: "Oct 1, 2026" },
+    { id: "o5", name: "Pitt Arts Collective", short: "PAC", mission: "Free arts programming and performance space for local artists and families.", causes: ["Arts & culture"], location: "Greenville (Uptown)", contact: "Tasha Greene", email: "tasha@pittarts.example.org", phone: "(252) 555-0199", website: "pittarts.example.org", approval: "Approved", joined: "Oct 2, 2026" },
+    { id: "o6", name: "Eastern NC Literacy Council", short: "ELC", mission: "Free adult reading and GED tutoring in Pitt and Greene counties.", causes: ["Youth & education"], location: "Ayden", contact: "Gloria Price", email: "gloria@encliteracy.example.org", phone: "(252) 555-0124", website: "encliteracy.example.org", approval: "Pending", joined: "Oct 14, 2026", submitted: "2 days ago", note: "Website and 501(c)(3) letter provided." },
+    { id: "o7", name: "Grimesland Youth Soccer League", short: "GYS", mission: "Low-cost recreational soccer for kids ages 5 to 14.", causes: ["Youth & education", "Community spaces"], location: "Grimesland", contact: "Victor Ruiz", email: "victor@gysl.example.org", phone: "(252) 555-0158", website: "gysl.example.org", approval: "Pending", joined: "Oct 15, 2026", submitted: "1 day ago", note: "No website listed. Contact by phone to verify." },
+    { id: "o8", name: "QuickCash Promotions LLC", short: "QCP", mission: "Earn money sharing our products with friends! Volunteers wanted.", causes: ["Community spaces"], location: "Unknown", contact: "J. Smith", email: "promo@quickcash.example.com", phone: "(252) 555-0100", website: "quickcash.example.com", approval: "Pending", joined: "Oct 16, 2026", submitted: "3 hours ago", note: "Flagged: mission reads as sales or recruitment, not volunteering.", flagged: true }
+  ];
+
+  // Opportunity + OpportunitySkill. `fit` holds 0–100 per MatchingRule criterion for the
+  // signed-in volunteer; score is computed from rule weights below.
+  const opportunities = [
+    { id: "n1", orgId: "o1", title: "Board treasurer", roleType: "Board / committee service", cause: "Hunger & food security",
+      description: "Keep the pantry's books, prepare a one-page monthly report and present it at board meetings. Our current treasurer steps down in January.",
+      commitment: "Ongoing / recurring", when: "2nd Tuesday monthly, 6:00–7:30 PM", start: "Jan 12, 2027", location: "Greenville", remote: "Hybrid", needed: 1, filled: 0, minAge: 18, bgCheck: false,
+      skills: [{ name: "Accounting", required: true }, { name: "Nonprofit finance", required: false }], expires: "Nov 30, 2026", status: "Active", distance: 3.1, interested: 0, daysOpen: 21,
+      fit: { skill: 100, role: 100, cause: 100, schedule: 90, commitment: 70, distance: 90 },
+      reasons: ["You listed accounting, which this role requires", "You're free Tuesday evenings", "Hunger & food security is one of your causes"] },
+    { id: "n2", orgId: "o5", title: "Grant budget review", roleType: "Professional / pro bono expertise", cause: "Arts & culture",
+      description: "Review the budget section of our spring arts grant and suggest fixes before the Dec 15 deadline. About 6 hours over three weeks.",
+      commitment: "Short-term project", when: "Flexible, Nov 16 – Dec 6", start: "Nov 16, 2026", location: "Remote", remote: "Remote", needed: 1, filled: 0, minAge: 18, bgCheck: false,
+      skills: [{ name: "Accounting", required: false }, { name: "Grant writing", required: false }], expires: "Dec 6, 2026", status: "Active", distance: 0, interested: 1, daysOpen: 6,
+      fit: { skill: 90, role: 100, cause: 60, schedule: 100, commitment: 100, distance: 100 },
+      reasons: ["Uses your accounting background", "Fully remote and flexible", "You accept short-term projects"] },
+    { id: "n3", orgId: "o1", title: "Saturday food distribution", roleType: "Hands-on labor", cause: "Hunger & food security",
+      description: "Unload the truck, pack boxes and hand groceries to families at the drive-through line. Closed-toe shoes required.",
+      commitment: "One-time", when: "Sat, Nov 7, 8:00 AM – 12:00 PM", start: "Nov 7, 2026", location: "Greenville (W 5th St)", remote: "In person", needed: 12, filled: 7, minAge: 18, bgCheck: false,
+      skills: [{ name: "Food safety certification", required: false }], expires: "Nov 6, 2026", status: "Active", distance: 3.1, interested: 2, daysOpen: 9,
+      fit: { skill: 40, role: 80, cause: 100, schedule: 100, commitment: 100, distance: 90 },
+      reasons: ["You're free Saturday mornings", "Hunger & food security is one of your causes", "3.1 miles from you"] },
+    { id: "n4", orgId: "o2", title: "Race-day registration table", roleType: "Event support", cause: "Health",
+      description: "Check in runners, hand out bibs and answer questions at the Driving Out Cancer 5K benefiting Riley's Army.",
+      commitment: "One-time", when: "Sat, Nov 14, 7:00 – 11:00 AM", start: "Nov 14, 2026", location: "Greenville Town Common", remote: "In person", needed: 8, filled: 3, minAge: 18, bgCheck: false,
+      skills: [{ name: "Customer service", required: false }, { name: "Spanish", required: false }], expires: "Nov 13, 2026", status: "Active", distance: 2.4, interested: 4, daysOpen: 12,
+      fit: { skill: 60, role: 90, cause: 50, schedule: 100, commitment: 100, distance: 100 },
+      reasons: ["Spanish speakers are especially welcome", "You're free Saturday mornings", "2.4 miles from you"] },
+    { id: "n5", orgId: "o3", title: "After-school homework mentor", roleType: "Mentoring", cause: "Youth & education",
+      description: "Help middle-school students with math homework and study habits. Bilingual mentors are a big help for our Spanish-speaking families.",
+      commitment: "Ongoing / recurring", when: "Tue & Thu, 4:00 – 5:30 PM", start: "Nov 3, 2026", location: "Winterville", remote: "In person", needed: 5, filled: 2, minAge: 18, bgCheck: true,
+      skills: [{ name: "Tutoring", required: false }, { name: "Spanish", required: false }], expires: "Dec 18, 2026", status: "Active", distance: 7.8, interested: 3, daysOpen: 15,
+      fit: { skill: 50, role: 70, cause: 90, schedule: 60, commitment: 70, distance: 60 },
+      reasons: ["Uses your Spanish", "Youth & education is one of your causes", "Background check required (you said you're willing)"] },
+    { id: "n6", orgId: "o4", title: "Holiday drive social posts", roleType: "Marketing or design help", cause: "Housing",
+      description: "Write and schedule eight Facebook and Instagram posts for our December repair-kit drive. We'll provide photos.",
+      commitment: "Short-term project", when: "Flexible, Nov 20 – Dec 1", start: "Nov 20, 2026", location: "Remote", remote: "Remote", needed: 1, filled: 0, minAge: 18, bgCheck: false,
+      skills: [{ name: "Social media", required: true }], expires: "Dec 1, 2026", status: "Active", distance: 0, interested: 0, daysOpen: 4,
+      fit: { skill: 30, role: 40, cause: 40, schedule: 100, commitment: 100, distance: 100 },
+      reasons: ["Remote and flexible", "You accept short-term projects"] }
+  ];
+  // Ineligible pairs (UC-MAT-02): never shown as cards, only counted.
+  const excluded = [
+    { title: "Roofing crew lead", org: "Tar River Build Crew", reason: "Requires OSHA-10 certification" },
+    { title: "Overnight shelter host", org: "Greenville Community Pantry", reason: "Fri 10 PM – 6 AM conflicts with your availability" }
+  ];
+
+  // Volunteer + VolunteerAvailability + VolunteerSkill + VolunteerCause (the signed-in volunteer)
+  const volunteer = {
+    firstName: "Jordan", lastName: "Ellis", email: "jordan.ellis@example.com", phone: "(252) 555-0176", birthDate: "1992-03-08",
+    area: "Greenville (Tar River area)", radius: 15, remote: "In person or remote",
+    causes: ["Hunger & food security", "Youth & education", "Health"],
+    roles: ["Board / committee service", "Event support", "Professional / pro bono expertise", "Hands-on labor", "Mentoring"],
+    skills: ["Accounting", "Nonprofit finance", "Spanish", "Customer service"], certifications: ["CPA (North Carolina)"], languages: ["English", "Spanish"], physical: "Can lift 25 lbs, stand 4+ hours",
+    commitment: ["One-time", "Short-term project", "Ongoing / recurring"], bgCheckWilling: true,
+    availability: { Mon: [], Tue: ["Evening"], Wed: [], Thu: ["Evening"], Fri: [], Sat: ["Morning", "Afternoon"], Sun: [] },
+    seasonal: "Busy Feb – Apr (tax season)", completeness: 90
+  };
+
+  // Org view: Greenville Community Pantry is signed in. Candidates = ranked volunteer summaries
+  // (first name, skills, causes, availability, general area; no contact before connection).
+  const candidates = {
+    n3: [
+      { id: "v1", first: "Maya", last: "Thompson", area: "Greenville (east)", score: 94, status: "Interested", skills: ["Food safety certification", "Event setup"], causes: ["Hunger & food security", "Seniors"], availability: "Sat mornings, Sun afternoons", email: "maya.t@example.com", phone: "(252) 555-0132" },
+      { id: "v2", first: "Jordan", last: "Ellis", area: "Greenville (Tar River)", score: 82, status: "Interested", skills: ["Accounting", "Spanish", "Customer service"], causes: ["Hunger & food security", "Youth & education"], availability: "Tue/Thu evenings, Sat", email: "jordan.ellis@example.com", phone: "(252) 555-0176" },
+      { id: "v3", first: "DeShawn", last: "Moore", area: "Greenville (ECU)", score: 79, status: "Suggested", skills: ["Event setup", "Customer service"], causes: ["Hunger & food security"], availability: "Weekends", email: "", phone: "" },
+      { id: "v4", first: "Priya", last: "Natarajan", area: "Winterville", score: 74, status: "Suggested", skills: ["Data entry"], causes: ["Hunger & food security", "Health"], availability: "Sat mornings", email: "", phone: "" },
+      { id: "v5", first: "Carl", last: "Jennings", area: "Simpson", score: 70, status: "Suggested", skills: ["Carpentry", "Event setup"], causes: ["Seniors", "Community spaces"], availability: "Weekdays and Sat", email: "", phone: "" }
+    ],
+    n1: [
+      { id: "v2", first: "Jordan", last: "Ellis", area: "Greenville (Tar River)", score: 95, status: "Suggested", skills: ["Accounting", "Nonprofit finance", "Spanish"], causes: ["Hunger & food security", "Youth & education"], availability: "Tue/Thu evenings, Sat", email: "", phone: "" },
+      { id: "v6", first: "Linda", last: "Harper", area: "Greenville (west)", score: 81, status: "Suggested", skills: ["Nonprofit finance", "Data entry"], causes: ["Seniors", "Hunger & food security"], availability: "Weekdays", email: "", phone: "" }
+    ]
+  };
+  // Postings owned by the signed-in org (Manage postings, UC-ORG-05)
+  const postings = [
+    { id: "n3", title: "Saturday food distribution", status: "Active", needed: 12, filled: 7, interested: 2, expires: "Nov 6, 2026", daysLeft: 21 },
+    { id: "n1", title: "Board treasurer", status: "Active", needed: 1, filled: 0, interested: 0, expires: "Nov 30, 2026", daysLeft: 45, warn: "No interest after 21 days" },
+    { id: "p3", title: "Holiday box sorting", status: "Paused", needed: 10, filled: 4, interested: 1, expires: "Dec 12, 2026", daysLeft: 57 },
+    { id: "p4", title: "Thanksgiving meal prep", status: "Filled", needed: 6, filled: 6, interested: 0, expires: "Nov 25, 2026", daysLeft: 40 },
+    { id: "p5", title: "Summer garden helpers", status: "Expired", needed: 4, filled: 2, interested: 0, expires: "Sep 30, 2026", daysLeft: 0 }
+  ];
+
+  // Interest + Connection for the volunteer (UC-VOL-05, UC-CON-04)
+  const connections = [
+    { id: "c1", orgId: "o2", title: "Fall fun run water station", status: "Connected", confirmed: "Oct 3, 2026", when: "Sat, Oct 10, 7:30 – 10:30 AM",
+      contact: { name: "Leah Brooks", email: "leah@rileysarmy.example.org", phone: "(252) 555-0187" }, address: null,
+      messages: [{ from: "Leah", text: "Thanks for signing on, Jordan! Please meet at the blue tent by 7:15.", at: "Oct 3, 4:12 PM" }, { from: "You", text: "Will do. Should I bring anything?", at: "Oct 3, 6:40 PM" }, { from: "Leah", text: "Just sunscreen. We'll have shirts for everyone.", at: "Oct 4, 9:05 AM" }] },
+    { id: "c2", orgId: "o3", title: "After-school homework mentor", status: "Waiting for organization", confirmed: null, when: "Tue & Thu, 4:00 – 5:30 PM", contact: null, messages: [] }
+  ];
+
+  // Admin console (UC-ADM-03/04) — reporting period Sep 15 – Oct 16, 2026
+  const stats = { orgs: 23, orgsPending: 3, volunteers: 187, needs: 64, connections: 112, filled: 89 };
+  const monthly = [
+    { month: "Sep", volunteers: 61, connections: 28 },
+    { month: "Oct", volunteers: 126, connections: 84 }
+  ];
+  const byCause = [
+    { cause: "Hunger & food security", needs: 17, filled: 15 },
+    { cause: "Youth & education", needs: 14, filled: 9 },
+    { cause: "Health", needs: 10, filled: 8 },
+    { cause: "Housing", needs: 9, filled: 5 },
+    { cause: "Arts & culture", needs: 8, filled: 4 },
+    { cause: "Seniors", needs: 6, filled: 5 }
+  ];
+  const lowInterest = [
+    { title: "Board treasurer", org: "Greenville Community Pantry", days: 21, interested: 0, roleType: "Board / committee service" },
+    { title: "Spanish interpreter, legal aid night", org: "Pitt Arts Collective", days: 14, interested: 0, roleType: "Professional / pro bono expertise" },
+    { title: "Meals van driver", org: "Greenville Community Pantry", days: 10, interested: 1, roleType: "Hands-on labor" }
+  ];
+  const flags = [
+    { what: "Volunteer profile: \"Brandon K.\"", why: "Bio links to a paid coaching service", at: "Today, 9:14 AM" },
+    { what: "Posting: \"Help needed ASAP!!\" (Tar River Build Crew)", why: "No dates, role type or location filled in", at: "Yesterday" }
+  ];
+
+  function orgById(id) { return orgs.find(o => o.id === id); }
+  function score(fit, w) {
+    const ws = w || rules;
+    const total = ws.filter(r => r.active).reduce((s, r) => s + r.weight, 0) || 1;
+    return Math.round(ws.filter(r => r.active).reduce((s, r) => s + r.weight * (fit[r.id] || 0), 0) / total);
+  }
+  opportunities.forEach(o => { o.org = orgById(o.orgId); o.score = score(o.fit); });
+  opportunities.sort((a, b) => b.score - a.score);
+  connections.forEach(c => { c.org = orgById(c.orgId); });
+
+  return { causes, roleTypes, commitments, skills, rules, orgs, opportunities, excluded, volunteer, candidates, postings, connections, stats, monthly, byCause, lowInterest, flags, orgById, score };
+})();
+
+</script>
+<script>
+const D = window.VOLUNTR;
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const I = {
+  compass: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg>',
+  bookmark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h12v18l-6-4-6 4z"/></svg>',
+  link: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>',
+  user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>',
+  list: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h1M3 12h1M3 18h1"/></svg>',
+  people: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.3-5 6.5-5s5.7 1.5 6.5 5"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4 1.3 4.5 4"/></svg>',
+  plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg>',
+  building: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 21V5l8-2v18M12 8h8v13M8 8h0M8 12h0M8 16h0M16 12h0M16 16h0"/></svg>',
+  check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>',
+  flag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 21V4h11l-1.5 4L16 12H5"/></svg>',
+  chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
+  sliders: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>',
+  lock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/></svg>',
+  info: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v0"/></svg>'
+};
+const TABS = {
+  vol: [["home", "Home", I.home], ["discover", "Discover", I.compass], ["saved", "Saved", I.bookmark], ["connections", "Connections", I.link], ["profile", "Profile", I.user]],
+  org: [["home", "Home", I.home], ["postings", "Postings", I.list], ["review", "Review", I.people], ["post", "Post", I.plus]],
+  adm: [["home", "Home", I.home], ["approvals", "Approvals", I.check], ["attention", "Attention", I.flag], ["reports", "Reports", I.chart], ["matching", "Matching", I.sliders]]
+};
+const S = {
+  role: "join", device: null, tab: { vol: "home", org: "home", adm: "home" },
+  idx: 0, saved: new Set(["n2"]), passed: new Set(), interested: new Set(),
+  conns: D.connections.map(c => ({ ...c, messages: [...c.messages] })), openConn: null,
+  wizard: null, postings: D.postings.map(p => ({ ...p })), reviewFor: "n3",
+  cands: JSON.parse(JSON.stringify(D.candidates)), orgs: D.orgs.map(o => ({ ...o })),
+  weights: D.rules.map(r => ({ ...r })), mfa: false, posted: null, recruited: new Set()
+};
+const deck = () => D.opportunities.filter(o => !S.passed.has(o.id) && !S.interested.has(o.id));
+
+function toast(t) { const el = $("#toast"); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => el.hidden = true, 2600); }
+function sheet(html) { $("#sheet").innerHTML = html ? `<div class="sheet-wrap" data-act="closeSheet"><div class="sheet" role="dialog" aria-modal="true">${html}</div></div>` : ""; }
+
+function device() { return S.device || (innerWidth >= 900 ? "desktop" : "phone"); }
+function render() {
+  document.querySelectorAll("[data-role]").forEach(b => b.setAttribute("aria-pressed", b.dataset.role === S.role));
+  const dv = device();
+  $("#app").dataset.device = dv;
+  $("#app").dataset.join = S.role === "join" ? "1" : "0";
+  document.querySelectorAll("[data-device]").forEach(b => { if (b.tagName === "BUTTON") b.setAttribute("aria-pressed", b.dataset.device === dv); });
+  if (S.role === "join") {
+    $("#who").innerHTML = S.wizard ? "New volunteer" : `<button class="linkish" style="color:inherit" data-role="vol">Sign in</button>`;
+    $("#tabs").hidden = true;
+    const scr = $("#screen"), key = "join" + (S.wizard ? S.wizard.step : "");
+    if (scr.dataset.view !== key) scr.scrollTop = 0;
+    scr.dataset.view = key;
+    scr.innerHTML = S.wizard ? vWizard() : vJoin();
+    return;
+  }
+  $("#tabs").hidden = false;
+  const who = { vol: `${esc(D.volunteer.firstName)} · Volunteer`, org: "Greenville Community Pantry", adm: "Nichole · PCC admin" };
+  $("#who").innerHTML = who[S.role];
+  const t = S.tab[S.role];
+  $("#tabs").innerHTML = TABS[S.role].map(([id, label, icon]) => {
+    let badge = "";
+    if (id === "saved" && S.saved.size) badge = `<span class="badge">${S.saved.size}</span>`;
+    if (id === "review") badge = `<span class="badge">${Object.values(S.cands).flat().filter(c => c.status === "Interested").length}</span>`;
+    if (id === "approvals") badge = `<span class="badge">${S.orgs.filter(o => o.approval === "Pending").length}</span>`;
+    return `<button data-tab="${id}" ${t === id ? 'aria-current="page"' : ""}>${icon}<span>${label}</span>${badge}</button>`;
+  }).join("") + (dv === "desktop" ? `<span class="rail-note">Need help? Call PCC at (252) 555-0100</span>` : "");
+  const scr = $("#screen"), key = S.role + t + (S.wizard ? "w" + S.wizard.step : "") + (S.openConn || "") + (t === "discover" ? S.idx + "-" + deck().length : ""), keep = scr.dataset.view === key;
+  scr.dataset.view = key;
+  if (S.role === "adm" && !S.mfa) scr.innerHTML = vMfa();
+  else if (S.wizard) scr.innerHTML = vWizard();
+  else scr.innerHTML = (V[t] || (() => ""))();
+  if (!keep) scr.scrollTop = 0;
+}
+
+/* ---------- Volunteer ---------- */
+function fitBars(o) {
+  return `<div class="bars">${S.weights.filter(r => r.active).map(r => `<div class="bar"><span>${esc(r.criterion)}</span><i><b style="width:${o.fit[r.id]}%"></b></i><em>${o.fit[r.id]}</em></div>`).join("")}</div>`;
+}
+function oppCard(o, mode) {
+  return `<article class="card opp enter" aria-label="${esc(o.title)}"><div class="opp-main">
+    <div class="org-row"><div class="avatar" aria-hidden="true">${esc(o.org.short)}</div><div class="stack"><span class="eyebrow">${esc(o.org.name)}</span><h2>${esc(o.title)}</h2></div></div>
+    <div class="chips"><span class="chip">${esc(o.roleType)}</span><span class="chip">${esc(o.commitment)}</span>${o.bgCheck ? '<span class="chip warn">Background check</span>' : ""}${o.remote === "Remote" ? '<span class="chip ok">Remote</span>' : ""}</div>
+    <p class="sub" style="color:var(--ink)">${esc(o.description)}</p>
+    <dl class="facts"><dt>When</dt><dd>${esc(o.when)}</dd><dt>Where</dt><dd>${esc(o.location)}${o.distance ? ` · ${o.distance} mi` : ""}</dd><dt>Needed</dt><dd>${o.needed - o.filled} of ${o.needed} spots open</dd><dt>Skills</dt><dd>${o.skills.map(s => esc(s.name) + (s.required ? " (required)" : "")).join(", ")}</dd></dl></div>
+    <div class="opp-side"><div class="match"><div class="ring" style="--p:${o.score}"><span>${o.score}</span></div><div><div class="fitlabel">${o.score >= 85 ? "Excellent fit" : o.score >= 70 ? "Good fit" : "Possible fit"}</div><strong style="font-size:14px">Why we suggested this</strong><ul>${o.reasons.map(r => `<li>${esc(r)}</li>`).join("")}</ul></div></div>
+    <details><summary>See how the match score is calculated</summary>${fitBars(o)}<p class="sub" style="font-size:12.5px;margin-top:6px">Score = weighted average of the six criteria PCC sets. No contact details are shared until you and the organization both agree.</p></details></div>
+    ${mode === "deck" ? `<div class="actions"><button class="btn quiet" data-act="pass" data-id="${o.id}">Not for me</button><button class="btn" data-act="save" data-id="${o.id}" aria-pressed="${S.saved.has(o.id)}" aria-label="Save for later">${I.bookmark}</button><button class="btn solid" data-act="interest" data-id="${o.id}">I'm interested</button></div>` : ""}
+  </article>`;
+}
+const V = {};
+const task = (tab, title, desc, count, act) => `<button class="task" ${act ? `data-act="${act}"` : `data-tab="${tab}"`}><b>${title}${count ? `<span class="cnt">${count}</span>` : ""}</b><span>${desc}</span><i class="arrow" aria-hidden="true">→</i></button>`;
+const callbar = `<div class="callbar"><span>Prefer to talk to someone? We're happy to help by phone.</span><b>Call PCC: (252) 555-0100</b></div>`;
+function hello() { const h = new Date().getHours(); return h < 12 ? "Good morning" : h < 17 ? "Good afternoon" : "Good evening"; }
+V.home = () => {
+  if (S.role === "org") { const ni = Object.values(S.cands).flat().filter(c => c.status === "Interested").length; const warn = S.postings.find(p => p.warn && p.status === "Active");
+    return `<div class="greet"><h2>Welcome, Greenville Community Pantry</h2><p class="lead">What would you like to do today?</p></div>${warn ? `<div class="banner warn">${I.flag}<span><b>${esc(warn.title)}</b> has had no interest in 21 days. Try changing the time or description, or call PCC and we'll help you recruit.</span></div>` : ""}
+    <div class="tasks">${task("review", "See who wants to help", "Volunteers who asked to help, and strong matches", ni)}${task("post", "Ask for volunteers", "Post a new need in about 3 minutes")}${task("postings", "Update my postings", "Pause, mark as filled, or change when a posting ends", S.postings.filter(p => p.status === "Active").length)}${task("orgprofile", "Update our organization's details", "Mission, contact person, logo and website")}</div>${callbar}`; }
+  if (S.role === "adm") { const pend = S.orgs.filter(o => o.approval === "Pending").length;
+    return `<div class="greet"><h2>${hello()}, Nichole</h2><p class="lead">Here's what needs your attention.</p></div><div class="tasks">${task("approvals", "Approve new organizations", "Their postings stay hidden until you approve them", pend)}${task("attention", "Help needs nobody has answered", "Open 10+ days with little or no interest", D.lowInterest.length)}${task("reports", "See reports and export data", "Numbers for the board, funders and grants")}${task("matching", "Adjust how matching works", "Choose what matters most when ranking matches")}</div>`; }
+  const d = deck().length, conn = S.conns.filter(c => c.status === "Connected").length, wait = S.conns.length - conn;
+  return `<div class="greet"><h2>${hello()}, ${esc(D.volunteer.firstName)}</h2><p class="lead">What would you like to do today?</p></div>
+  <div class="tasks">${task("discover", "Find a way to help", "Your best matches first, one at a time, with the reasons we picked each one", d)}${task("saved", "Look at what I saved", "Opportunities you set aside for later", S.saved.size)}${task("connections", "See my connections", wait ? `${wait} waiting for an answer, ${conn} connected` : `${conn} connected`, wait)}${task("profile", "Update what I can do and when", "Your causes, skills and free times")}</div>${callbar}`;
+};
+V.discover = () => {
+  const d = deck();
+  const head = `<div class="row"><div><h2>Opportunities for you</h2><p class="sub">Ranked by how well they fit your profile</p></div><span class="chip navy">${d.length ? `${Math.min(S.idx + 1, d.length)} of ${d.length}` : "Done"}</span></div>`;
+  const ex = `<div class="note">${I.info}<span>${D.excluded.length} opportunities are hidden because you're not eligible. <button class="linkish" data-act="why">See why</button></span></div>`;
+  if (!d.length) return head + `<div class="card"><h3>You've seen every current match</h3><p class="sub">We'll email you when a new opportunity fits your profile. You can also review the ones you saved.</p><button class="btn solid" data-tab="saved">Go to saved</button><button class="btn quiet" data-act="reset">Start over (demo)</button></div>` + ex;
+  if (S.idx >= d.length) S.idx = 0;
+  return head + oppCard(d[S.idx], "deck") + ex;
+};
+V.saved = () => {
+  const list = D.opportunities.filter(o => S.saved.has(o.id) && !S.interested.has(o.id));
+  return `<h2>Saved for later</h2>` + (list.length ? `<div class="list cards">${list.map(o => `<div class="card"><div class="row"><div><span class="eyebrow">${esc(o.org.name)}</span><h3>${esc(o.title)}</h3><p class="sub">${esc(o.when)}</p></div><div class="ring" style="--p:${o.score}"><span>${o.score}</span></div></div><div class="row"><button class="btn quiet small" data-act="unsave" data-id="${o.id}">Remove</button><button class="btn solid small" data-act="interest" data-id="${o.id}">I'm interested</button></div></div>`).join("")}</div>` : `<div class="banner info">Nothing saved yet. Tap the bookmark on any opportunity to keep it here.</div>`);
+};
+V.connections = () => {
+  if (S.openConn) {
+    const c = S.conns.find(x => x.id === S.openConn);
+    return `<button class="linkish" data-act="closeConn">← All connections</button>
+      <div class="card"><span class="eyebrow">${esc(c.org.name)}</span><h2>${esc(c.title)}</h2><p class="sub">${esc(c.when)}</p>
+      <div class="banner ok">${I.check}<span>Connected ${esc(c.confirmed)}. Contact details are now shared with both of you.</span></div>
+      <dl class="facts"><dt>Contact</dt><dd>${esc(c.contact.name)}</dd><dt>Email</dt><dd>${esc(c.contact.email)}</dd><dt>Phone</dt><dd>${esc(c.contact.phone)}</dd><dt>Address</dt><dd>${c.address ? esc(c.address) : "Not needed for this opportunity"}</dd></dl></div>
+      <div class="card"><h3>Messages</h3><div class="list">${c.messages.map(m => `<div class="msg ${m.from === "You" ? "me" : ""}">${esc(m.text)}<small>${esc(m.from)} · ${esc(m.at)}</small></div>`).join("")}</div>
+      <form data-form="msg" class="row"><label for="msgIn" class="sr" hidden>Message</label><input id="msgIn" type="text" placeholder="Write a message" autocomplete="off"><button class="btn solid small">Send</button></form></div>`;
+  }
+  return `<h2>Your connections</h2><p class="sub">A connection is made when you express interest and the organization accepts.</p><div class="list cards">${S.conns.map(c => `<button class="card" style="text-align:left" data-act="${c.status === "Connected" ? "openConn" : "noop"}" data-id="${c.id}"><div class="row"><div><span class="eyebrow">${esc(c.org.name)}</span><h3>${esc(c.title)}</h3><p class="sub">${esc(c.when)}</p></div><span class="chip ${c.status === "Connected" ? "ok" : "warn"}">${esc(c.status)}</span></div>${c.status === "Connected" ? "" : '<p class="sub" style="font-size:13px">Contact details appear here once the organization accepts.</p>'}</button>`).join("")}</div>`;
+};
+V.profile = () => {
+  const v = D.volunteer;
+  const days = Object.entries(v.availability).filter(([, t]) => t.length).map(([d, t]) => `${d} ${t.join(" & ").toLowerCase()}`).join(", ");
+  const sec = (title, body) => `<div class="card"><div class="row"><h3>${title}</h3><button class="linkish" data-act="wizard">Edit</button></div>${body}</div>`;
+  return `<div class="row"><div><h2>${esc(v.firstName)} ${esc(v.lastName)}</h2><p class="sub">${esc(v.area)} · within ${v.radius} mi</p></div><div class="ring" style="--p:${v.completeness}"><span>${v.completeness}%</span></div></div>
+    <div class="banner info">Organizations see only your first name, skills, interests, availability and general area until you both agree to connect.</div>
+    ${sec("What you like to do", `<div class="chips">${v.causes.map(c => `<span class="chip">${esc(c)}</span>`).join("")}</div>`)}
+    ${sec("What you're willing to do", `<div class="chips">${v.roles.map(c => `<span class="chip">${esc(c)}</span>`).join("")}</div>`)}
+    ${sec("What you can do", `<div class="chips">${v.skills.map(c => `<span class="chip">${esc(c)}</span>`).join("")}</div><dl class="facts"><dt>Certified</dt><dd>${esc(v.certifications.join(", "))}</dd><dt>Languages</dt><dd>${esc(v.languages.join(", "))}</dd><dt>Physical</dt><dd>${esc(v.physical)}</dd></dl>`)}
+    ${sec("When you're available", `<dl class="facts"><dt>Days</dt><dd>${esc(days)}</dd><dt>Commitment</dt><dd>${esc(v.commitment.join(", "))}</dd><dt>Format</dt><dd>${esc(v.remote)}</dd><dt>Seasonal</dt><dd>${esc(v.seasonal)}</dd></dl>`)}
+    <button class="btn" data-act="wizardNew">Preview new-volunteer sign-up</button>
+    <p class="legal">PCC does not screen or vet volunteers or organizations. Organizations are responsible for their own screening and supervision. <button class="linkish" data-act="terms">Terms & privacy</button></p>`;
+};
+
+/* ---------- Sign-up page + wizard (UC-VOL-01, UC-NFR-02/03/05) ---------- */
+const WSTEPS = ["About you", "What you like to do", "What you're willing to do", "What you can do", "When you're free", "Review your preferences"];
+const SHIELD = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>';
+function vJoin() {
+  return `<section class="hero"><div class="hero-copy"><span class="eyebrow" style="color:inherit;opacity:.8">Pitt County Cares · VOLUNTR</span><h2>Find volunteer work in Pitt County that fits your skills and your schedule</h2><p>Tell us what you care about, what you're good at and when you're free. We'll match you with local organizations that need exactly that.</p><button class="btn accent" data-act="wizardNew">Start sign-up</button><p style="font-size:13px">About 10 minutes · Free · 18 and older</p></div>
+    <ol class="outline" aria-label="What we'll ask">${WSTEPS.slice(0, 5).map((t, i) => `<li><span><b>${t}</b><span>${["Name, email and date of birth", "Causes you care about", "Kinds of roles you'd accept", "Skills, credentials and languages", "Days, times and how far you'll travel"][i]}</span></span></li>`).join("")}</ol></section>
+  <div class="promises">${[["Your contact details stay private", "Organizations see only your first name, skills and general area until you both agree to connect."], ["Matches, not a long list", "You'll see the opportunities that fit you best first, and why."], ["Change anything later", "Update your preferences whenever your schedule or interests change."]].map(([h, t]) => `<div class="card promise">${SHIELD}<div><b>${h}</b><p class="sub">${t}</p></div></div>`).join("")}</div>
+  <div class="card"><div class="row" style="flex-wrap:wrap"><div><h3>Representing a nonprofit?</h3><p class="sub">Organizations register separately and are approved by PCC before posting needs.</p></div><button class="btn quiet small" data-act="orgSignup">Register an organization</button></div></div>
+  <p class="legal">Already have an account? <button class="linkish" data-role="vol">Sign in</button> · Prefer to sign up by phone? Call PCC at (252) 555-0100. PCC does not screen or vet volunteers or organizations. <button class="linkish" data-act="terms">Terms & privacy</button></p>`;
+}
+function wSummary(w, edit) {
+  const days = { Mon: "Mon", Tue: "Tue", Wed: "Wed", Thu: "Thu", Fri: "Fri", Sat: "Sat", Sun: "Sun" };
+  const slots = w.slots.map(x => x.replace("|", " ").toLowerCase().replace(/^(\w)/, c => c.toUpperCase())).join(", ");
+  const sec = (h, val, step) => `<div><h4>${h}${edit ? `<button class="linkish" data-act="wgo" data-step="${step}">Change</button>` : ""}</h4><p class="${val ? "" : "empty"}">${val ? esc(val) : "Not chosen yet"}</p></div>`;
+  return `<div class="sum">${sec("About you", [w.first, w.last].filter(Boolean).join(" ") + (w.email ? ` · ${w.email}` : ""), 0)}${sec("Causes", w.causes.join(", "), 1)}${sec("Roles you'd accept", w.roles.join(", "), 2)}${sec("Skills", [...w.skills, w.cert].filter(Boolean).join(", "), 3)}${sec("Free times", slots, 4)}${sec("Commitment and format", [...w.commit, ...w.format].join(", ") + (w.commit.length || w.format.length ? ` · within ${w.radius} mi` : ""), 4)}</div>`;
+}
+function vWizard() {
+  const w = S.wizard, s = w.step, last = WSTEPS.length - 1;
+  const left = [10, 8, 6, 4, 2, 1][s];
+  let body = "";
+  const pick = (key, opts) => `<div class="pick">${opts.map(o => `<button type="button" data-act="pick" data-key="${key}" data-val="${esc(o)}" aria-pressed="${w[key].includes(o)}">${esc(o)}</button>`).join("")}</div>`;
+  if (s === 0) body = `
+    <div class="row" style="gap:10px;align-items:start"><div class="field" style="flex:1"><label for="wf">First name</label><input id="wf" type="text" value="${esc(w.first)}" data-bind="first" autocomplete="given-name"></div>
+    <div class="field" style="flex:1"><label for="wl">Last name</label><input id="wl" type="text" value="${esc(w.last)}" data-bind="last" autocomplete="family-name"></div></div>
+    <div class="field"><label for="we">Email</label><input id="we" type="email" value="${esc(w.email)}" data-bind="email" autocomplete="email"></div>
+    <div class="field"><label for="wph">Mobile phone (optional)</label><input id="wph" type="text" value="${esc(w.phone || "")}" data-bind="phone" autocomplete="tel"><span class="hint">Shared only after you connect with an organization.</span></div>
+    <div class="field"><label for="wb">Date of birth</label><input id="wb" type="date" value="${esc(w.dob)}" data-bind="dob"><span class="hint">Volunteers must be 18 or older for this version.</span></div>
+    <div class="field"><label for="wz">ZIP code</label><input id="wz" type="text" inputmode="numeric" maxlength="5" value="${esc(w.zip || "")}" data-bind="zip" placeholder="27858"><span class="hint">Used to find opportunities near you. Organizations see only your general area.</span></div>
+    ${w.err ? `<div class="banner warn">${esc(w.err)}</div>` : ""}
+    <label class="note" style="color:var(--ink)"><input id="wt" type="checkbox" data-bind="terms" ${w.terms ? "checked" : ""}> <span>I agree to the terms of use and privacy policy. I understand PCC does not screen or vet volunteers or organizations.</span></label>`;
+  if (s === 1) body = `<p class="sub">Pick the causes you care about most. Choose as many as you like.</p>` + pick("causes", D.causes);
+  if (s === 2) body = `<p class="sub">Which kinds of roles would you accept?</p>` + pick("roles", D.roleTypes) + `<label class="note" style="color:var(--ink)"><input type="checkbox" data-bind="bg" ${w.bg ? "checked" : ""}> I'm willing to complete a background check if a role requires one</label>`;
+  if (s === 3) body = `<p class="sub">Skills, expertise and languages you can offer.</p>` + pick("skills", D.skills) + `<div class="field"><label for="wc">Certifications or credentials</label><input id="wc" type="text" placeholder="e.g. CPR, CPA, food handler" data-bind="cert" value="${esc(w.cert)}"></div><div class="field"><label for="wp">Physical capability</label><select id="wp" data-bind="phys"><option>No lifting limits</option><option>Can lift up to 25 lbs</option><option>Seated roles preferred</option></select></div>`;
+  if (s === 4) body = `<p class="sub">Tap the times you're usually free.</p><div class="grid-week"><span></span><span>Morning</span><span>Afternoon</span><span>Evening</span>${["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(d => `<span>${d}</span>` + ["Morning", "Afternoon", "Evening"].map(t => `<button type="button" data-act="slot" data-val="${d}|${t}" aria-pressed="${w.slots.includes(d + "|" + t)}" aria-label="${d} ${t}">${w.slots.includes(d + "|" + t) ? "✓" : ""}</button>`).join("")).join("")}</div>
+    <div class="field"><span class="lbl">Commitment</span>${pick("commit", D.commitments)}</div>
+    <div class="field"><span class="lbl">Format</span>${pick("format", ["In person", "Remote"])}</div>
+    <div class="field"><label for="wr">Travel radius: <b id="wrv">${w.radius}</b> miles</label><input id="wr" type="range" min="1" max="40" value="${w.radius}" data-bind="radius" style="accent-color:var(--navy)"></div>
+    <div class="field"><label for="ws">Busy seasons (optional)</label><input id="ws" type="text" data-bind="season" value="${esc(w.season || "")}" placeholder="e.g. Busy Feb – Apr"></div>`;
+  if (s === 5) body = `<p class="sub">Check your preferences. You can change any of them now or later from your profile.</p><div class="card">${wSummary(w, true)}</div><div class="banner info">Organizations will see: ${esc(w.first || "your first name")}, your skills, causes, free times and general area. Never your last name, email or phone until you both agree to connect.</div>`;
+  const main = `<div class="row"><button class="linkish" data-act="wizardClose">${S.role === "join" ? "← Back to sign-up page" : "Cancel"}</button><span class="sub">${s === last ? "Last step" : `About ${left} min left`}</span></div>
+    <div class="steps" aria-label="Step ${s + 1} of ${WSTEPS.length}">${WSTEPS.map((_, i) => `<i class="${i <= s ? "on" : ""}"></i>`).join("")}</div>
+    <div class="stack"><span class="eyebrow">Step ${s + 1} of ${WSTEPS.length}</span><h2>${WSTEPS[s]}</h2></div>
+    <form data-form="wizard" class="list" novalidate>${body}
+    <div class="row" style="margin-top:8px">${s ? '<button type="button" class="btn quiet" data-act="wback">Back</button>' : "<span></span>"}<button class="btn solid">${s === last ? (w.editing ? "Save preferences" : "Create my profile") : "Continue"}</button></div></form>`;
+  return `<div class="two-col"><div class="list">${main}</div>${s < last ? `<aside class="card side-only" style="flex-direction:column;position:sticky;top:0"><h3>Your preferences so far</h3>${wSummary(w, false)}</aside>` : ""}</div>`;
+}
+function newWizard(prefill) {
+  const v = D.volunteer;
+  return prefill ? { editing: true, bg: true, zip: "27858", phone: v.phone, season: v.seasonal, step: 1, first: v.firstName, last: v.lastName, email: v.email, dob: v.birthDate, terms: true, causes: [...v.causes], roles: [...v.roles], skills: [...v.skills], cert: v.certifications.join(", "), commit: [...v.commitment], format: ["In person", "Remote"], radius: v.radius, slots: ["Tue|Evening", "Thu|Evening", "Sat|Morning", "Sat|Afternoon"] }
+    : { step: 0, bg: false, first: "", last: "", email: "", dob: "", terms: false, causes: [], roles: [], skills: [], cert: "", commit: [], format: [], radius: 10, slots: [] };
+}
+
+/* ---------- Organization ---------- */
+V.postings = () => {
+  const warn = S.postings.find(p => p.warn && p.status === "Active");
+  return `<div class="row"><div><h2>Your postings</h2><p class="sub">Greenville Community Pantry</p></div><button class="btn accent small" data-tab="post">+ New</button></div>
+  ${warn ? `<div class="banner warn">${I.flag}<span><b>${esc(warn.title)}</b> has had no interest in 21 days. Update the details or ask PCC to help recruit.</span></div>` : ""}
+  <div class="list cards">${S.postings.map(p => {
+    const cls = { Active: "ok", Paused: "warn", Filled: "navy", Expired: "bad" }[p.status];
+    return `<div class="card"><div class="row"><h3>${esc(p.title)}</h3><span class="chip ${cls}">${p.status}</span></div>
+      <div class="progress" aria-label="${p.filled} of ${p.needed} filled"><b style="width:${p.filled / p.needed * 100}%"></b></div>
+      <div class="row sub" style="font-size:13px"><span>${p.filled} of ${p.needed} filled · ${p.interested} interested</span><span>${p.status === "Expired" ? "Expired" : "Expires"} ${esc(p.expires)}</span></div>
+      ${p.status === "Expired" || p.status === "Filled" ? `<div class="chips"><button class="btn quiet small" data-act="repost" data-id="${p.id}">Repost</button></div>` :
+      `<div class="chips">${p.interested ? `<button class="btn solid small" data-act="review" data-id="${p.id}">Review ${p.interested}</button>` : ""}<button class="btn quiet small" data-act="toggle" data-id="${p.id}">${p.status === "Paused" ? "Resume" : "Pause"}</button><button class="btn quiet small" data-act="filled" data-id="${p.id}">Mark filled</button><button class="btn quiet small" data-act="expiry" data-id="${p.id}">Change expiry</button></div>`}</div>`;
+  }).join("")}</div>`;
+};
+V.review = () => {
+  const opp = D.opportunities.find(o => o.id === S.reviewFor);
+  const list = S.cands[S.reviewFor] || [];
+  return `<h2>Review volunteers</h2>
+  <div class="field narrow"><label for="rf">Posting</label><select id="rf" data-act="reviewFor">${["n3", "n1"].map(id => `<option value="${id}" ${id === S.reviewFor ? "selected" : ""}>${esc(D.opportunities.find(o => o.id === id).title)}</option>`).join("")}</select></div>
+  <div class="note">${I.lock}<span>You'll see full names and contact details only after you accept someone who expressed interest.</span></div>
+  <div class="list cards">${list.map(c => `<div class="card enter">
+    <div class="row"><div class="org-row"><div class="avatar" aria-hidden="true">${esc(c.first[0])}</div><div><h3>${c.status === "Connected" ? esc(c.first + " " + c.last) : esc(c.first)}</h3><p class="sub">${esc(c.area)}</p></div></div><div class="ring" style="--p:${c.score}"><span>${c.score}</span></div></div>
+    <div class="chips">${c.skills.map(s => `<span class="chip">${esc(s)}</span>`).join("")}</div>
+    <dl class="facts"><dt>Causes</dt><dd>${esc(c.causes.join(", "))}</dd><dt>Free</dt><dd>${esc(c.availability)}</dd></dl>
+    ${c.status === "Interested" ? `<div class="chips"><span class="chip warn">Interested in this need</span></div><div class="row"><button class="btn quiet small" data-act="decline" data-id="${c.id}">Decline</button><button class="btn solid small" data-act="accept" data-id="${c.id}">Accept and connect</button></div>` : ""}
+    ${c.status === "Suggested" ? `<div class="row"><span class="chip">Suggested match</span><button class="btn small" data-act="invite" data-id="${c.id}">Express interest</button></div>` : ""}
+    ${c.status === "Invited" ? `<span class="chip warn">You expressed interest. Waiting for ${esc(c.first)}.</span>` : ""}
+    ${c.status === "Declined" ? `<span class="chip bad">Declined</span>` : ""}
+    ${c.status === "Connected" ? `<div class="banner ok">${I.check}<span>Connected. You both got an email.</span></div><dl class="facts"><dt>Email</dt><dd>${esc(c.email)}</dd><dt>Phone</dt><dd>${esc(c.phone)}</dd></dl>` : ""}
+  </div>`).join("")}</div>`;
+};
+V.post = () => {
+  if (S.posted) return `<div class="banner ok">${I.check}<span><b>${esc(S.posted)}</b> is live.</span></div><div class="card"><h3>14 volunteers match this need</h3><p class="sub">They'll be notified today. You'll get an email when someone expresses interest.</p><button class="btn solid" data-act="postAnother">Post another need</button><button class="btn quiet" data-tab="postings">Back to postings</button></div>`;
+  const pk = (name, opts, multi) => `<div class="pick" data-group="${name}" data-multi="${multi ? 1 : 0}">${opts.map((o, i) => `<button type="button" data-act="opt" aria-pressed="${!multi && i === 0}">${esc(o)}</button>`).join("")}</div>`;
+  return `<h2>Post a volunteer need</h2><p class="sub">About 3 minutes. Every field helps us match the right people.</p>
+  <form data-form="post" class="list narrow">
+    <div class="field"><label for="pt">Title</label><input id="pt" type="text" placeholder="e.g. Saturday food distribution" required></div>
+    <div class="field"><span class="lbl">Role type</span>${pk("role", D.roleTypes)}</div>
+    <div class="field"><label for="pd">What will volunteers do?</label><textarea id="pd" placeholder="Two or three sentences"></textarea></div>
+    <div class="field"><span class="lbl">Skills or credentials</span><span class="hint">Tap once for nice-to-have</span>${pk("skills", ["Food safety certification", "Spanish", "Event setup", "Customer service", "Data entry"], true)}</div>
+    <div class="field"><span class="lbl">Time commitment</span>${pk("commit", D.commitments)}</div>
+    <div class="row" style="gap:8px"><div class="field" style="flex:1"><label for="pdt">Date</label><input id="pdt" type="date" value="2026-11-21"></div><div class="field" style="flex:1"><label for="ptm">Start</label><input id="ptm" type="time" value="08:00"></div></div>
+    <div class="field"><label for="pl">Location</label><input id="pl" type="text" value="Greenville (W 5th St)"></div>
+    <div class="field"><span class="lbl">Can this be done remotely?</span>${pk("remote", ["In person", "Remote", "Hybrid"])}</div>
+    <div class="row" style="gap:8px"><div class="field" style="flex:1"><label for="pn">Volunteers needed</label><input id="pn" type="number" min="1" value="10"></div><div class="field" style="flex:1"><label for="pa">Minimum age</label><input id="pa" type="number" min="18" value="18"></div></div>
+    <label class="note" style="color:var(--ink)"><input id="pb" type="checkbox"> Background check required</label>
+    <div class="field"><label for="pe">Remove this posting on</label><input id="pe" type="date" value="2026-11-20"><span class="hint">Expired postings drop out of matching automatically.</span></div>
+    <button class="btn solid">Publish need</button>
+  </form>`;
+};
+V.orgprofile = () => { const o = D.orgs[0]; return `<div class="org-row"><div class="avatar" style="width:56px;height:56px">${o.short}</div><div><h2>${esc(o.name)}</h2><span class="chip ok">Verified by PCC</span></div></div>
+  <div class="card"><dl class="facts"><dt>Mission</dt><dd>${esc(o.mission)}</dd><dt>Causes</dt><dd>${esc(o.causes.join(", "))}</dd><dt>Location</dt><dd>${esc(o.location)}</dd><dt>Contact</dt><dd>${esc(o.contact)}</dd><dt>Email</dt><dd>${esc(o.email)}</dd><dt>Website</dt><dd>${esc(o.website)}</dd></dl><button class="btn quiet small">Edit profile</button></div>
+  <div class="card"><div class="row"><div><h3>Two-step sign-in</h3><p class="sub">Optional for organizations</p></div><label class="note"><input id="omfa" type="checkbox"> On</label></div></div>`; };
+
+/* ---------- Admin ---------- */
+function vMfa() { return `<div class="card narrow" style="margin-top:20px">${I.lock.replace("<svg", '<svg width="32" height="32"')}<h2>Confirm it's you</h2><p class="sub">PCC admin accounts use two-step sign-in. Enter the 6-digit code from your authenticator app.</p><form data-form="mfa" class="list"><div class="field"><label for="code">Code</label><input id="code" type="text" inputmode="numeric" maxlength="6" value="482913"></div><button class="btn solid">Verify and continue</button></form></div>`; }
+V.approvals = () => {
+  const pend = S.orgs.filter(o => o.approval === "Pending");
+  return `<h2>Organizations to approve</h2><p class="sub">Postings go live only after an organization is approved.</p>
+  <div class="list cards">${pend.length ? pend.map(o => `<div class="card" ${o.flagged ? 'style="border-color:var(--bad)"' : ""}><div class="row"><div class="org-row"><div class="avatar">${o.short}</div><div><h3>${esc(o.name)}</h3><p class="sub">${esc(o.location)} · ${esc(o.submitted)}</p></div></div></div><p class="sub" style="color:var(--ink)">${esc(o.mission)}</p><div class="banner ${o.flagged ? "warn" : "info"}">${esc(o.note)}</div><dl class="facts"><dt>Contact</dt><dd>${esc(o.contact)}, ${esc(o.email)}</dd></dl><div class="chips"><button class="btn solid small" data-act="approve" data-id="${o.id}">Approve</button><button class="btn quiet small" data-act="askinfo" data-id="${o.id}">Ask for info</button><button class="btn danger small" data-act="reject" data-id="${o.id}">Reject</button></div></div>`).join("") : `<div class="banner ok">${I.check}<span>All caught up.</span></div>`}</div>
+  <h3>Reported content</h3><div class="list cards">${D.flags.map(f => `<div class="card"><h3 style="font-size:15px">${esc(f.what)}</h3><p class="sub">${esc(f.why)} · ${esc(f.at)}</p><div class="chips"><button class="btn quiet small" data-act="flagok">Keep</button><button class="btn danger small" data-act="flagrm">Remove</button></div></div>`).join("")}</div>`;
+};
+V.attention = () => `<h2>Needs with no interest</h2><p class="sub">Open 10+ days with one or no interested volunteers. Step in and recruit directly.</p><div class="list cards">${D.lowInterest.map((n, i) => `<div class="card"><span class="eyebrow">${esc(n.org)}</span><h3>${esc(n.title)}</h3><div class="chips"><span class="chip bad">${n.days} days open</span><span class="chip">${n.interested} interested</span><span class="chip">${esc(n.roleType)}</span></div>${S.recruited.has(i) ? `<div class="banner ok">${I.check}<span>Added to Friday's newsletter list.</span></div>` : `<div class="chips"><button class="btn solid small" data-act="recruit" data-id="${i}">Add to newsletter</button><button class="btn quiet small" data-act="contactorg">Contact organization</button></div>`}</div>`).join("")}</div>`;
+V.reports = () => {
+  const s = D.stats, max = Math.max(...D.byCause.map(c => c.needs));
+  return `<div class="row"><h2>Reports</h2><select aria-label="Period" style="width:auto"><option>Sep 15 – Oct 16, 2026</option><option>This month</option></select></div>
+  <div class="kpis"><div class="kpi"><b>${s.orgs}</b><span>Organizations (${s.orgsPending} pending)</span></div><div class="kpi"><b>${s.volunteers}</b><span>Volunteers</span></div><div class="kpi"><b>${s.needs}</b><span>Needs posted</span></div><div class="kpi"><b>${s.connections}</b><span>Connections made</span></div><div class="kpi" style="grid-column:1/-1"><b>${s.filled}</b><span>Roles filled (${Math.round(s.filled / s.needs * 100)}% of needs posted)</span></div></div>
+  <div class="card"><h3>Needs posted vs filled, by cause</h3>${D.byCause.map(c => `<div class="hbar"><div class="row"><span>${esc(c.cause)}</span><span class="sub" style="font-size:12.5px">${c.filled} / ${c.needs}</span></div><div class="track"><b style="width:${c.needs / max * 100}%"></b><b style="width:${c.filled / max * 100}%"></b></div></div>`).join("")}<p class="sub" style="font-size:12px">Light bar: needs posted. Dark bar: filled.</p></div>
+  <div class="card"><h3>Export for newsletters and grants</h3><div class="chips"><button class="btn quiet small" data-act="export" data-id="volunteers.csv">Volunteers (CSV)</button><button class="btn quiet small" data-act="export" data-id="connections.csv">Connections (CSV)</button></div></div>`;
+};
+V.matching = () => {
+  const total = S.weights.reduce((a, r) => a + (r.active ? r.weight : 0), 0);
+  const ranked = D.opportunities.map(o => ({ o, s: D.score(o.fit, S.weights) })).sort((a, b) => b.s - a.s).slice(0, 3);
+  return `<h2>Matching rules</h2><p class="sub">Transparent, rules-based scoring. Adjust how much each factor counts.</p>
+  <div class="card">${S.weights.map((r, i) => `<div class="slider"><label for="w${i}">${esc(r.criterion)}</label><output>${r.weight}</output><input id="w${i}" type="range" min="0" max="50" step="5" value="${r.weight}" data-act="weight" data-id="${i}"></div>`).join("")}
+  <div class="row"><b>Total</b><span class="chip ${total === 100 ? "ok" : "warn"}">${total} / 100</span></div></div>
+  <div class="card"><h3>Preview: Jordan's top 3</h3><ol style="margin:0;padding-left:20px;font-size:14px">${ranked.map(x => `<li>${esc(x.o.title)} <b>${x.s}</b></li>`).join("")}</ol></div>
+  <div class="note">${I.info}<span>Always excluded, regardless of weights: under minimum age, missing required credential, background check not accepted, schedule conflict.</span></div>
+  <button class="btn solid" data-act="saveWeights" ${total === 100 ? "" : "disabled"}>Save weights</button>`;
+};
+
+/* ---------- Events ---------- */
+document.addEventListener("click", e => {
+  const b = e.target.closest("[data-role],[data-tab],[data-act],button[data-device],[data-size]");
+  if (!b) return;
+  if (b.dataset.device) { S.device = b.dataset.device; return render(); }
+  if (b.dataset.size) { document.documentElement.style.setProperty("--scale", b.dataset.size); document.querySelectorAll("[data-size]").forEach(x => x.setAttribute("aria-pressed", x === b)); return; }
+  if (b.dataset.role) { S.role = b.dataset.role; S.wizard = null; sheet(""); return render(); }
+  if (b.dataset.tab) { S.tab[S.role] = b.dataset.tab; S.wizard = null; S.openConn = null; return render(); }
+  const a = b.dataset.act, id = b.dataset.id;
+  const o = D.opportunities.find(x => x.id === id);
+  switch (a) {
+    case "pass": S.passed.add(id); toast("Got it. We'll show fewer like this."); break;
+    case "save": S.saved.has(id) ? S.saved.delete(id) : S.saved.add(id); toast(S.saved.has(id) ? "Saved for later" : "Removed from saved"); S.idx = (S.idx + 1) % Math.max(deck().length, 1); break;
+    case "unsave": S.saved.delete(id); break;
+    case "interest": S.interested.add(id); S.saved.delete(id); S.conns.push({ id: "x" + id, org: o.org, title: o.title, when: o.when, status: "Waiting for organization", messages: [] }); toast(`Interest sent to ${o.org.name}. We'll email you when they respond.`); break;
+    case "why": sheet(`<h2>Hidden opportunities</h2><p class="sub">These don't meet a must-have requirement, so they never appear as matches.</p>${D.excluded.map(x => `<div class="card"><h3>${esc(x.title)}</h3><p class="sub">${esc(x.org)}</p><span class="chip bad">${esc(x.reason)}</span></div>`).join("")}<button class="btn solid" data-act="closeSheet">Close</button>`); return;
+    case "terms": sheet(`<h2>Terms & privacy</h2><p class="sub" style="color:var(--ink)">Your contact details stay private until you and an organization both agree to connect. PCC does not screen, vet or supervise volunteers or organizations. Organizations are responsible for their own screening. Volunteers must be 18 or older.</p><button class="btn solid" data-act="closeSheet">Close</button>`); return;
+    case "closeSheet": if (b.classList.contains("sheet-wrap") && e.target !== b) return; sheet(""); return;
+    case "reset": S.passed.clear(); S.interested.clear(); S.idx = 0; break;
+    case "openConn": S.openConn = id; break;
+    case "closeConn": S.openConn = null; break;
+    case "wizard": S.wizard = newWizard(true); break;
+    case "wizardNew": S.wizard = newWizard(false); break;
+    case "wizardClose": S.wizard = null; break;
+    case "wback": S.wizard.step--; S.wizard.err = ""; break;
+    case "wgo": S.wizard.step = +b.dataset.step; S.wizard.err = ""; break;
+    case "orgSignup": toast("Organization registration opens a separate form, reviewed by PCC."); return;
+    case "pick": { const arr = S.wizard[b.dataset.key], v = b.dataset.val; const i = arr.indexOf(v); i > -1 ? arr.splice(i, 1) : arr.push(v); b.setAttribute("aria-pressed", i === -1); return; }
+    case "slot": { const arr = S.wizard.slots, v = b.dataset.val; const i = arr.indexOf(v); i > -1 ? arr.splice(i, 1) : arr.push(v); b.setAttribute("aria-pressed", i === -1); b.textContent = i === -1 ? "✓" : ""; return; }
+    case "opt": { const g = b.parentElement; if (g.dataset.multi === "0") g.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") !== "true"); return; }
+    case "review": S.reviewFor = id; S.tab.org = "review"; break;
+    case "toggle": { const p = S.postings.find(x => x.id === id); p.status = p.status === "Paused" ? "Active" : "Paused"; toast(p.status === "Paused" ? "Paused. Hidden from matching until you resume." : "Resumed. Back in matching."); break; }
+    case "filled": { const p = S.postings.find(x => x.id === id); p.status = "Filled"; p.filled = p.needed; toast("Marked filled. Removed from matching."); break; }
+    case "expiry": { const p = S.postings.find(x => x.id === id); p.expires = "Dec 15, 2026"; delete p.warn; toast("Expiry moved to Dec 15, 2026"); break; }
+    case "repost": { const p = S.postings.find(x => x.id === id); S.tab.org = "post"; toast(`Copied “${p.title}” into a new posting`); break; }
+    case "accept": { const c = S.cands[S.reviewFor].find(x => x.id === id); c.status = "Connected"; toast(`Connected with ${c.first} ${c.last}. Both of you were emailed.`); break; }
+    case "decline": { const c = S.cands[S.reviewFor].find(x => x.id === id); c.status = "Declined"; toast(`${c.first} will be told the role isn't a fit.`); break; }
+    case "invite": { const c = S.cands[S.reviewFor].find(x => x.id === id); c.status = "Invited"; toast(`${c.first} will see that you're interested.`); break; }
+    case "postAnother": S.posted = null; break;
+    case "approve": { const g = S.orgs.find(x => x.id === id); g.approval = "Approved"; toast(`${g.name} approved. Their postings can go live.`); break; }
+    case "reject": { const g = S.orgs.find(x => x.id === id); g.approval = "Rejected"; toast(`${g.name} rejected.`); break; }
+    case "askinfo": toast("Email sent asking for more information."); return;
+    case "flagok": toast("Kept. Report closed."); b.closest(".card").remove(); return;
+    case "flagrm": toast("Removed and owner notified."); b.closest(".card").remove(); return;
+    case "recruit": S.recruited.add(+id); break;
+    case "contactorg": toast("Opened an email to the organization's contact."); return;
+    case "export": toast(`In the live app this downloads ${id}.`); return;
+    case "saveWeights": toast("Weights saved. Matches will re-rank tonight."); return;
+    default: return;
+  }
+  render();
+});
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.dataset.act === "weight") { S.weights[+t.dataset.id].weight = +t.value; const pos = document.activeElement.id; render(); document.getElementById(pos)?.focus(); return; }
+  if (t.dataset.bind && S.wizard) { S.wizard[t.dataset.bind] = t.type === "checkbox" ? t.checked : t.value; if (t.dataset.bind === "radius") $("#wrv").textContent = t.value; }
+});
+document.addEventListener("change", e => { if (e.target.dataset.act === "reviewFor") { S.reviewFor = e.target.value; render(); } });
+document.addEventListener("submit", e => {
+  e.preventDefault();
+  const f = e.target.dataset.form;
+  if (f === "mfa") { S.mfa = true; render(); }
+  if (f === "msg") { const v = $("#msgIn").value.trim(); if (v) { S.conns.find(c => c.id === S.openConn).messages.push({ from: "You", text: v, at: "Just now" }); render(); } }
+  if (f === "post") { S.posted = $("#pt").value.trim() || "Saturday food distribution (Nov 21)"; S.postings.unshift({ id: "new", title: S.posted, status: "Active", needed: +$("#pn").value || 10, filled: 0, interested: 0, expires: "Nov 20, 2026" }); render(); }
+  if (f === "wizard") {
+    const w = S.wizard; w.err = "";
+    if (w.step === 0) {
+      if (!w.first || !w.email || !w.dob) w.err = "Add your first name, email and date of birth to continue.";
+      else { const age = (new Date("2026-10-16") - new Date(w.dob)) / 31557600000; if (age < 18) w.err = "VOLUNTR is for volunteers 18 and older right now. Ask a parent or guardian about PCC's family events instead."; }
+      if (!w.err && !w.terms) w.err = "Please agree to the terms of use to continue.";
+    }
+    if (w.err) return render();
+    if (w.step < WSTEPS.length - 1) w.step++; else { const ed = w.editing; S.wizard = null; S.role = "vol"; S.tab.vol = ed ? "profile" : "discover"; S.idx = 0; toast(ed ? "Preferences saved. Your matches will refresh." : "Welcome! Your profile is ready. Here are your best matches."); }
+    render();
+  }
+});
+addEventListener("resize", () => { if (!S.device) render(); });
+render();
+</script>
