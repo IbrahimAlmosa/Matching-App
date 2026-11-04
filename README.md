@@ -4,6 +4,15 @@ VOLUNTR matches volunteers with Pitt County nonprofits for **Pitt County Cares (
 
 > Training copy only. All people and organizations are fictional. Data is saved in the browser running the page, and email is shown as in-app notifications.
 
+## Try it online
+
+Live site (GitHub Pages): **https://ibrahimalmosa.github.io/Matching-App/**
+
+- Training build: https://ibrahimalmosa.github.io/Matching-App/voluntr.html
+- Prototype D: https://ibrahimalmosa.github.io/Matching-App/prototypes/voluntr-together.html
+
+The site updates on its own a minute or two after anything is merged to `main`. Each tester's data stays in their own browser, so testers don't see each other's changes. Use **Training tools → Reset** to start over.
+
 ## Run it
 
 Open `voluntr.html` in any modern browser. It needs no server and no install. It works on a phone, or use the Phone/Desktop switch at the top.
