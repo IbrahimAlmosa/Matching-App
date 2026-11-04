@@ -1,0 +1,111 @@
+{
+ "ranAt": "2026-11-04T23:10:11.669Z",
+ "browser": "Chromium (Playwright)",
+ "results": [
+  {
+   "id": "TC-E01",
+   "title": "New volunteer completes sign-up and sees ranked matches",
+   "req": "UC-VOL-01/02, FR Vol-1/2, NFR-2",
+   "status": "Pass",
+   "detail": "Top match: “Saturday food distribution”. Scripted sign-up took 1.2s; data and session survived a reload."
+  },
+  {
+   "id": "TC-E02",
+   "title": "Interest → organization accepts → contacts released → messages both ways",
+   "req": "UC-CON-01/02/04, FR Connect-1/2, NFR-4",
+   "status": "Pass",
+   "detail": "Contact hidden before accept, shown to both after; 2 messages exchanged; notifications sent"
+  },
+  {
+   "id": "TC-E03",
+   "title": "Organization registers, waits for PCC approval, then posts a need that reaches volunteers",
+   "req": "UC-ORG-01/02, UC-ADM-01, FR Admin-1",
+   "status": "Pass",
+   "detail": "“Weekend adoption event helpers” is live. 5 volunteers match it. DeShawn's matches now include it (rank 2 of 4)."
+  },
+  {
+   "id": "TC-E04",
+   "title": "Admin sign-in rejects a wrong code and accepts the current one",
+   "req": "Client: MFA required for admins",
+   "status": "Pass",
+   "detail": "Wrong code refused; correct code accepted; lockout after 5 wrong passwords"
+  },
+  {
+   "id": "TC-E05",
+   "title": "Admin changes matching weights with a live preview and audit trail",
+   "req": "UC-MAT-03, FR Matching-3",
+   "status": "Pass",
+   "detail": "Preview re-ranked Jordan's list; save blocked at 70/100; change logged"
+  },
+  {
+   "id": "TC-E06",
+   "title": "Volunteer suggests a new skill; admin merges it into an existing one",
+   "req": "BR-SK-01",
+   "status": "Pass",
+   "detail": "Maya's skills after merge: Food safety certification, Event setup"
+  },
+  {
+   "id": "TC-E07",
+   "title": "Volunteer logs hours, organization confirms, admin report updates",
+   "req": "Client Sprint 2 answer 8",
+   "status": "Pass",
+   "detail": "Confirmed hours 0 → 7.5"
+  },
+  {
+   "id": "TC-E08",
+   "title": "Accessibility basics: field labels, button names, visible keyboard focus",
+   "req": "NFR-1 (WCAG 2.1 AA)",
+   "status": "Pass",
+   "detail": "No unlabelled fields or nameless buttons on 11 screens; visible focus ring"
+  },
+  {
+   "id": "TC-E09",
+   "title": "Phone layout: no sideways scrolling, bottom tabs, 44px+ tap targets",
+   "req": "NFR-1 mobile-first, NFR-6",
+   "status": "Pass",
+   "detail": "5 volunteer screens fit 375px wide"
+  },
+  {
+   "id": "TC-E10",
+   "title": "Text-size control enlarges content for older users",
+   "req": "NFR-1 readable for older users",
+   "status": "Pass",
+   "detail": "Heading height 124px → 215px"
+  },
+  {
+   "id": "TC-E11",
+   "title": "Sign-out and 30-minute idle timeout end the session",
+   "req": "NFR-5",
+   "status": "Pass",
+   "detail": ""
+  },
+  {
+   "id": "TC-E12",
+   "title": "Typed HTML is shown as text, never run (XSS)",
+   "req": "NFR-5",
+   "status": "Pass",
+   "detail": "Markup displayed literally; no script ran"
+  },
+  {
+   "id": "TC-E13",
+   "title": "Practice clock expires postings; Reset restores training data",
+   "req": "NFR-12, training support",
+   "status": "Pass",
+   "detail": "8 postings expired at +30 days; reset brought back the original data"
+  },
+  {
+   "id": "TC-E14",
+   "title": "First load on a slow connection",
+   "req": "NFR-6 older phones, modest connections",
+   "status": "Pass",
+   "detail": "Usable in 962 ms with 4× CPU slowdown (page is 188 KB, one file; fonts load separately)"
+  },
+  {
+   "id": "TC-E15",
+   "title": "Organization Owner adds an Editor; Editor can post but can't manage the team",
+   "req": "BR org accounts (Owner/Editor)",
+   "status": "Pass",
+   "detail": "Editor created and limited to postings"
+  }
+ ]
+}
