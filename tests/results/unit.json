@@ -1,0 +1,230 @@
+{
+ "ranAt": "2026-11-04T23:09:51.358Z",
+ "node": "v22.23.4",
+ "results": [
+  {
+   "id": "TC-U01",
+   "title": "Seed data loads with every ERD table and valid foreign keys",
+   "req": "ERD, NFR-8",
+   "status": "Pass",
+   "detail": "7 volunteers, 8 organizations, 12 opportunities"
+  },
+  {
+   "id": "TC-U02",
+   "title": "Volunteers must be 18 or older (birthday edge cases)",
+   "req": "NFR-10, UC-VOL-01",
+   "status": "Pass",
+   "detail": "18 today accepted; 17 (turns 18 tomorrow) and future dates rejected"
+  },
+  {
+   "id": "TC-U03",
+   "title": "Email must be valid and not already used by any account type",
+   "req": "UC-VOL-01, NFR-5",
+   "status": "Pass",
+   "detail": "Format, case-insensitive duplicates and cross-role duplicates caught"
+  },
+  {
+   "id": "TC-U04",
+   "title": "Password policy: 10+ characters with a letter and a number",
+   "req": "NFR-5",
+   "status": "Pass",
+   "detail": ""
+  },
+  {
+   "id": "TC-U05",
+   "title": "Location must be a Pitt County area ZIP code",
+   "req": "UC-VOL-01",
+   "status": "Pass",
+   "detail": ""
+  },
+  {
+   "id": "TC-U06",
+   "title": "Match score is the weighted average of the six criteria",
+   "req": "FR Matching-1, UC-MAT-01",
+   "status": "Pass",
+   "detail": "Jordan × Saturday food distribution: fit {\"skill\":0,\"role\":100,\"cause\":100,\"schedule\":100,\"commitment\":100,\"distance\":100} → 70"
+  },
+  {
+   "id": "TC-U07",
+   "title": "Missing a required skill excludes the pair, with the reason",
+   "req": "FR Matching-2, UC-MAT-02",
+   "status": "Pass",
+   "detail": "Requires Social media"
+  },
+  {
+   "id": "TC-U08",
+   "title": "Background check required and volunteer unwilling → excluded",
+   "req": "FR Matching-2",
+   "status": "Pass",
+   "detail": ""
+  },
+  {
+   "id": "TC-U09",
+   "title": "No overlapping free time → excluded; flexible timing always fits",
+   "req": "FR Matching-2",
+   "status": "Pass",
+   "detail": ""
+  },
+  {
+   "id": "TC-U10",
+   "title": "Distance beyond the volunteer's travel radius → excluded",
+   "req": "FR Matching-1/2",
+   "status": "Pass",
+   "detail": "21.1 miles away (your limit is 5)"
+  },
+  {
+   "id": "TC-U11",
+   "title": "Opportunity minimum age above 18 is enforced",
+   "req": "FR Org-2, FR Matching-2",
+   "status": "Pass",
+   "detail": ""
+  },
+  {
+   "id": "TC-U12",
+   "title": "Unapproved organizations' postings never reach volunteers",
+   "req": "FR Admin-1, BR org approval",
+   "status": "Pass",
+   "detail": "Pending org blocked from posting; suspended org hidden; approved org shown"
+  },
+  {
+   "id": "TC-U13",
+   "title": "Expired postings drop out of matching automatically",
+   "req": "NFR-12, FR Org-4",
+   "status": "Pass",
+   "detail": "1 postings expired after moving the clock 10 days"
+  },
+  {
+   "id": "TC-U14",
+   "title": "Admin weights re-rank matches and must total 100",
+   "req": "FR Matching-3, UC-MAT-03",
+   "status": "Pass",
+   "detail": "Before: opp_treas, opp_interp, opp_grant, opp_food. After: opp_treas, opp_food, opp_grant, opp_interp"
+  },
+  {
+   "id": "TC-U15",
+   "title": "Contact details hidden until a mutual connection exists",
+   "req": "FR Connect-1, NFR-4",
+   "status": "Pass",
+   "detail": "Hidden before, released to the connected org only"
+  },
+  {
+   "id": "TC-U16",
+   "title": "Volunteer interest + organization accept creates a connection and notifies both",
+   "req": "FR Connect-1/2, UC-CON-01/02",
+   "status": "Pass",
+   "detail": "Connection made; posting filled; both sides notified"
+  },
+  {
+   "id": "TC-U17",
+   "title": "Organization can express interest first; volunteer accepts",
+   "req": "FR Org-3, BR matching workflow",
+   "status": "Pass",
+   "detail": ""
+  },
+  {
+   "id": "TC-U18",
+   "title": "Declined and 'Not for me' pairs are never shown again",
+   "req": "FR Vol-2, Level 1 DFD 4.2",
+   "status": "Pass",
+   "detail": ""
+  },
+  {
+   "id": "TC-U19",
+   "title": "Role-based permissions block cross-organization and non-admin actions",
+   "req": "NFR-5, UC-ADM",
+   "status": "Pass",
+   "detail": "Other org, Editor, volunteer and admin-without-MFA all refused"
+  },
+  {
+   "id": "TC-U20",
+   "title": "Skills: duplicates caught, suggestions pending, merge moves volunteer skills",
+   "req": "BR-SK-01",
+   "status": "Pass",
+   "detail": "Bookkeeping merged into Accounting; Linda now matches Accounting roles"
+  },
+  {
+   "id": "TC-U21",
+   "title": "Possible duplicate organizations are flagged during approval",
+   "req": "BR org duplicates",
+   "status": "Pass",
+   "detail": ""
+  },
+  {
+   "id": "TC-U22",
+   "title": "Volunteer hours: validation, organization confirmation, report total",
+   "req": "Client Sprint 2 answer 8 (hours)",
+   "status": "Pass",
+   "detail": ""
+  },
+  {
+   "id": "TC-U23",
+   "title": "Needs with little or no interest are surfaced for PCC",
+   "req": "FR Admin-2, UC-ADM-02",
+   "status": "Pass",
+   "detail": "Board treasurer (30d, 0); After-school homework mentor (15d, 1); Spanish interpreter, family art night (14d, 0); Race-day registration table (12d, 1)"
+  },
+  {
+   "id": "TC-U24",
+   "title": "CSV export quotes commas and neutralizes spreadsheet formulas",
+   "req": "FR Admin-4, NFR-5",
+   "status": "Pass",
+   "detail": ""
+  },
+  {
+   "id": "TC-U25",
+   "title": "Passwords are salted PBKDF2 hashes, never stored in plain text",
+   "req": "NFR-5",
+   "status": "Pass",
+   "detail": ""
+  },
+  {
+   "id": "TC-U26",
+   "title": "Two-step codes follow RFC 6238 (published test vector)",
+   "req": "Client: MFA for admins",
+   "status": "Pass",
+   "detail": ""
+  },
+  {
+   "id": "TC-U27",
+   "title": "Admin sign-in requires the second step; 5 wrong passwords lock the account",
+   "req": "NFR-5, client MFA answer",
+   "status": "Pass",
+   "detail": ""
+  },
+  {
+   "id": "TC-U28",
+   "title": "Deleting a volunteer account removes personal data but keeps counts",
+   "req": "Client answer 5, NFR-5 retention",
+   "status": "Pass",
+   "detail": ""
+  },
+  {
+   "id": "TC-U29",
+   "title": "Posting form rejects incomplete or impossible data",
+   "req": "FR Org-2, UC-ORG-02",
+   "status": "Pass",
+   "detail": "12 field errors returned"
+  },
+  {
+   "id": "TC-U30",
+   "title": "Only the two connected parties can message, up to 1,000 characters",
+   "req": "FR Connect-2",
+   "status": "Pass",
+   "detail": ""
+  },
+  {
+   "id": "TC-U31",
+   "title": "New posting alerts strong matches (trigger 3 in the Level 1 DFD)",
+   "req": "FR Connect-3, DFD 4.1",
+   "status": "Pass",
+   "detail": "vol_jordan, vol_linda alerted"
+  },
+  {
+   "id": "TC-U32",
+   "title": "Matching 500 volunteers × 50 postings finishes quickly",
+   "req": "NFR-6 performance",
+   "status": "Pass",
+   "detail": "20 volunteer feeds + 1 candidate list in 48 ms"
+  }
+ ]
+}
